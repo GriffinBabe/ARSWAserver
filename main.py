@@ -10,7 +10,7 @@ def adduser(username, address):
     print('New client detected with username: ' + username)
 
 
-def parse(data, so):
+def parse(data, so,address):
     print(data)
     so.sendTo(data, address)
 
@@ -24,4 +24,4 @@ clients = []
 while True:
     print('Waiting for clients to log in...')
     data, address = so.recv(4096)
-    parse(data)
+    parse(data,address)
