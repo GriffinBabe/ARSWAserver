@@ -1,18 +1,39 @@
 import socket
 from client import Client
 
-
-def adduser(username, address):
+def sendback(data):
+    """Sends the message back to all the users"""
     for client in clients:
-        if client.username == username:
-            return
-    clients.append(Client(username, address))
-    print('New client detected with username: ' + username)
+        client.sendData(data)
+
+def parse(data,socket,address):
+    """We define first the HEAD code, the head is at the beginning of each packet and means the type
+    of information de packet holds, the BODY is the information and the type depends on the HEAD.
+    The multiple BODY elements are divided by "-" """
+
+    PLAYER_CONNECTION = "CO"
+    PLAYER_DISCONNECTION = "DC"
+
+    stringdata = data.decode("utf-8")
+    print("From ["+address(1)+"]: "+stringdata)
+    listdata = stringdata.split("-")
+    head = listdata[0]
+
+    if head == PLAYER_CONNECTION: #The body, just after the HEAD is the username
+        client = Client(listdata[1],address,socket,clients) #TODO: Checkout if clients is a object link or a new object in Client
+        clients.append(client)
+
+    if head == PLAYER_DISCONNECTION: #The body, just after the HEAD is the username
+        for client in clients:
+            if client.username == listdata[1]:
+                clients.remove(client)
+                break
+
+    #In other cases, the server doesn't do anything but sends the information back to all other users, since the server is just a hub.
+
+    sendback(data)
 
 
-def parse(data, so,address):
-    print(data)
-    so.sendTo(data, address)
 
 
 so = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
@@ -21,7 +42,8 @@ so.bind(serverAddress)
 
 clients = []
 
+
 while True:
-    print('Waiting for clients to log in...')
+    print("Waiting for packets.")
     data, address = so.recv(4096)
     parse(data,address)
