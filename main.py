@@ -11,7 +11,7 @@ def parse(data,socket,address):
     of information de packet holds, the BODY is the information and the type depends on the HEAD.
     The multiple BODY elements are divided by "-" """
 
-    PLAYER_CONNECTION = "CO"
+    PLAYER_CONNECTION = "CO" #1 is the username
     PLAYER_DISCONNECTION = "DC"
 
     stringdata = data.decode("utf-8")
@@ -44,6 +44,8 @@ clients = []
 
 
 while True:
-    print("Waiting for packets.")
-    data, address = so.recv(4096)
+    print("Waiting for packets...")
+    data, address = so.recvfrom(4096)
+    print(data.decode("utf-8"))
+    print(address)
     parse(data,address)
