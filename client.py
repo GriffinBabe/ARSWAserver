@@ -11,18 +11,8 @@ class Client():
         print("New client created. Username: "+self.username+".")
 
     def sendData(self,data): #Sends the data to this user
-        print("To ["+self.address[0]+"]: "+data.decode("utf-8"))
+        #print("To ["+self.address[0]+"]: "+data.decode("utf-8"))
         self.socket.sendto(data,self.address)
-
-    """
-    def sendDataTo(self,data,address): #Sends the data to a particular user
-        self.socket.sendto(data,address)
-        
-    def sendDataToAll(self,data): #Sends the data to all users but this user
-        for client in self.clients:
-            if client != self:
-                self.sendDataTo(data,client.address)
-    """
 
     def informplayers(self): #Inform the freshly connected player all the players that came before
         for client in self.clients:

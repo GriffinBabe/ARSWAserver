@@ -15,16 +15,18 @@ def parse(data,socket,address):
     PLAYER_DISCONNECTION = "DC"
 
     stringdata = data.decode("utf-8")
-    print("From ["+str(address[0])+"]: "+stringdata)
+    #print("From ["+str(address[0])+"]: "+stringdata)
     listdata = stringdata.split("-")
     head = listdata[0]
 
     if head == PLAYER_CONNECTION: #The body, just after the HEAD is the username
+        print("New player connected: "+listdata[1])
         client = Client(listdata[1],address,socket,clients,listdata[2],listdata[3]) #TODO: Checkout if clients is a object link or a new object in Client
         clients.append(client)
         client.informplayers()
 
     if head == PLAYER_DISCONNECTION: #The body, just after the HEAD is the username
+        print("Player disconnected: "+listdata[1])
         for client in clients:
             if client.username == listdata[1]:
                 clients.remove(client)
@@ -43,7 +45,8 @@ so.bind(serverAddress)
 
 clients = []
 
+print("Server online...")
+
 while True:
-    print("Waiting for packets...")
     data, address = so.recvfrom(4096)
     parse(data,so,address)
