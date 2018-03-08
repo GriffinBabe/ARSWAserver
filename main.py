@@ -40,7 +40,7 @@ def parse(data,socket,address):
 
 
 so = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-serverAddress = ('localhost', 2055)  # 2055 is the game port
+serverAddress = ("localhost", 2055)  # 2055 is the game port
 so.bind(serverAddress)
 
 clients = []
