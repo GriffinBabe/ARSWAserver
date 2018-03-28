@@ -17,6 +17,6 @@ class Client():
     def informplayers(self): #Inform the freshly connected player all the players that came before
         for client in self.clients:
             if client != self:
-                stringdata = "CO-"+client.username+"-"+client.color+"-"+client.character+"-"+str(0)+"-"+str(0)
+                stringdata = "CO@"+client.username+"@"+client.color+"@"+client.character+"@"+str(0)+"@"+str(0)
                 data = stringdata.encode("utf-8")
                 self.sendData(data)

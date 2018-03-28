@@ -16,7 +16,7 @@ def parse(data,socket,address):
 
     stringdata = data.decode("utf-8")
     #print("From ["+str(address[0])+"]: "+stringdata)
-    listdata = stringdata.split("-")
+    listdata = stringdata.split("@")
     head = listdata[0]
 
     if head == PLAYER_CONNECTION: #The body, just after the HEAD is the username
